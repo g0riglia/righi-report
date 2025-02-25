@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuove scoperte scientifiche - Il Messaggero Digitale</title>
+    <style>
+        /* Variabili per i colori in modo da gestire la modalità notte */
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --text-color: #333333;
+            --header-bg: #000000;
+            --header-text: #ffffff;
+            --accent-color: #3498db;
+            --footer-bg: #222222;
+            --footer-text: #dddddd;
+            --border-color: #dddddd;
+            --quote-bg: #f9f9f9;
+            --quote-border: #e0e0e0;
+            --button-hover: #2980b9;
+        }
+
+        /* Modalità notte */
+        [data-theme="dark"] {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --header-bg: #000000;
+            --header-text: #ffffff;
+            --accent-color: #64b5f6;
+            --footer-bg: #1a1a1a;
+            --footer-text: #bbbbbb;
+            --border-color: #444444;
+            --quote-bg: #1a1a1a;
+            --quote-border: #333333;
+            --button-hover: #4a91c2;
+        }
+
+        /* Reset dello stile */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        /* Stile dell'header */
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logo e titolo del giornale */
+        .logo {
+            text-align: center;
+            flex-grow: 1;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            color: var(--header-text);
+            text-decoration: none;
+        }
+
+        /* Menu hamburger */
+        .menu-toggle {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: var(--header-text);
+            transition: all 0.3s ease;
+        }
+
+        /* Navigazione tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-tab {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--header-text);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-tab i {
+            font-size: 16px;
+        }
+
+        /* Menu a cascata */
+        .menu-dropdown {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--primary-bg);
+            z-index: 100;
+            padding: 60px 20px 20px;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .menu-dropdown.active {
+            left: 0;
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        .menu-categories {
+            margin-top: 30px;
+        }
+
+        .menu-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .category-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .category-item {
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            color: var(--accent-color);
+        }
+
+        /* Stile della pagina articolo */
+        .article-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .article-header {
+            margin: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .article-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .article-date {
+            font-style: italic;
+        }
+
+        /* Layout a colonne per l'articolo */
+        .article-content {
+            column-count: 2;
+            column-gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* Per evitare che le immagini si dividano tra le colonne */
+        .article-image-container {
+            break-inside: avoid;
+            margin: 20px 0;
+        }
+
+        .article-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .image-caption {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Stile dei paragrafi */
+        .article-paragraph {
+            margin-bottom: 20px;
+        }
+
+        /* Stile per citazioni */
+        .article-quote {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: var(--quote-bg);
+            border-left: 4px solid var(--accent-color);
+            font-style: italic;
+            break-inside: avoid;
+        }
+
+        .quote-author {
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Bottone aggiungi alla libreria */
+        .add-to-library {
+            display: block;
+            width: 250px;
+            padding: 15px 25px;
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 30px;
+            margin: 40px auto;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-to-library:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        .add-to-library i {
+            margin-right: 10px;
+        }
+
+        /* Tag categorie */
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .article-tag {
+            padding: 5px 12px;
+            background-color: var(--secondary-bg);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--footer-text);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            color: var(--accent-color);
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: var(--footer-text);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .article-content {
+                column-count: 1;
+            }
+
+            .article-title {
+                font-size: 28px;
+            }
+
+            .nav-tabs {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-tab span {
+                display: none;
+            }
+
+            .nav-tabs {
+                gap: 15px;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* Icone per modalità notte e altri elementi */
+        .icon {
+            font-size: 16px;
+        }
+    </style>
+    <!-- Font Awesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header con titolo e navigazione -->
+    <header class="header">
+        <!-- Menu hamburger -->
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <!-- Logo del giornale -->
+        <div class="logo"><a href="index.html">IL MESSAGGERO DIGITALE</a></div>
+        
+        <!-- Navigazione a tab -->
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab" id="loginButton">
+                <i class="fas fa-user"></i>
+                <span>Accedi</span>
+            </a>
+            <a href="#chi-siamo" class="nav-tab">
+                <i class="fas fa-info-circle"></i>
+                <span>Chi Siamo</span>
+            </a>
+            <a href="#" class="nav-tab" id="themeToggle">
+                <i class="fas fa-sun" id="themeIcon"></i>
+                <span>Modalità</span>
+            </a>
+        </div>
+    </header>
+    
+    <!-- Menu a cascata -->
+    <div class="menu-dropdown" id="menuDropdown">
+        <span class="menu-close" id="menuClose">&times;</span>
+        
+        <div class="menu-categories">
+            <div class="menu-category">
+                <div class="category-title">Attualità</div>
+                <div class="category-items">
+                    <div class="category-item">Politica</div>
+                    <div class="category-item">Cronaca</div>
+                    <div class="category-item">Economia</div>
+                    <div class="category-item">Esteri</div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <div class="category-title">Sport</div>
+                <div class="category-items">
+                    <div class="category-item">Calcio</div>
+                    <div class="category-item">Formula 1</div>
+                    <div class="category-item">Tennis</div>
+                    <div class="category-item">Basket</div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <div class="category-title">Cultura</div>
+                <div class="category-items">
+                    <div class="category-item">Cinema</div>
+                    <div class="category-item">Libri</div>
+                    <div class="category-item">Musica</div>
+                    <div class="category-item">Arte</div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <div class="category-title">Tecnologia</div>
+                <div class="category-items">
+                    <div class="category-item">Smartphone</div>
+                    <div class="category-item">Computer</div>
+                    <div class="category-item">Intelligenza Artificiale</div>
+                    <div class="category-item">Gaming</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenuto dell'articolo -->
+    <div class="article-container">
+        <div class="article-header">
+            <h1 class="article-title">Nuove scoperte scientifiche rivoluzionano il mondo della medicina</h1>
+            
+            <div class="article-tags">
+                <span class="article-tag">Scienza</span>
+                <span class="article-tag">Medicina</span>
+                <span class="article-tag">Innovazione</span>
+                <span class="article-tag">Ricerca</span>
+            </div>
+            
+            <div class="article-meta">
+                <div class="article-author">
+                    <div class="author-avatar">MR</div>
+                    <div>
+                        <div>Marco Rossi</div>
+                        <div>Giornalista Scientifico</div>
+                    </div>
+                </div>
+                <div class="article-date">25 Febbraio 2025 - Ultima modifica: 10:30</div>
+            </div>
+        </div>
+        
+        <div class="article-content">
+            <p class="article-paragraph">Un team di ricercatori italiani ha sviluppato una tecnica innovativa per il trattamento di malattie neurodegenerative. Gli esperimenti condotti negli ultimi mesi hanno dimostrato risultati promettenti, aprendo nuove prospettive per milioni di pazienti in tutto il mondo. Il Ministero della Salute ha già approvato ulteriori finanziamenti per ampliare la ricerca.</p>
+            
+            <p class="article-paragraph">La scoperta, pubblicata sulla prestigiosa rivista "Nature Medicine", rappresenta uno dei più significativi avanzamenti degli ultimi decenni nel campo delle neuroscienze. L'approccio si basa sull'utilizzo di una nuova classe di molecole capaci di attraversare la barriera emato-encefalica e interagire direttamente con le cellule nervose danneggiate, stimolando la rigenerazione dei tessuti.</p>
+            
+            <div class="article-image-container">
+                <img src="/api/placeholder/600/350" alt="Laboratorio di ricerca" class="article-image">
+                <div class="image-caption">Il team di ricerca al lavoro nel laboratorio dell'Università di Milano</div>
+            </div>
+            
+            <p class="article-paragraph">Il Professor Alessandro Bianchi, coordinatore del progetto, ha spiegato che i test pre-clinici hanno mostrato una significativa riduzione dei sintomi in modelli sperimentali di malattia di Alzheimer e Parkinson. "Quello che rende questo approccio rivoluzionario è la sua capacità di agire contemporaneamente su più meccanismi patologici, contrastando sia l'accumulo di proteine anomale sia i processi infiammatori associati", ha dichiarato Bianchi.</p>
+            
+            <p class="article-paragraph">La nuova terapia, denominata "NeuroReGen", combina elementi di terapia genica e nanotecnologie per creare un sistema di somministrazione mirato che rilascia il farmaco precisamente nelle aree cerebrali più colpite. Questo approccio personalizzato ha dimostrato di ridurre significativamente gli effetti collaterali tipicamente associati ai trattamenti tradizionali.</p>
+            
+            <div class="article-quote">
+                La medicina sta entrando in una nuova era, in cui saremo in grado di intervenire non solo sui sintomi, ma sulle cause profonde delle malattie neurodegenerative. I risultati che stiamo osservando potrebbero cambiare radicalmente la prognosi di milioni di pazienti nei prossimi anni.
+                <span class="quote-author">Prof.ssa Maria Ferrara, Neurologa</span>
+            </div>
+            
+            <p class="article-paragraph">Le implicazioni della scoperta vanno ben oltre il trattamento dell'Alzheimer e del Parkinson. I ricercatori ritengono che la stessa tecnologia possa essere adattata per affrontare altre patologie neurologiche come la sclerosi laterale amiotrofica (SLA) e la sclerosi multipla. "Il meccanismo d'azione è potenzialmente applicabile a tutte le condizioni caratterizzate da neurodegenerazione progressiva", spiega la Dott.ssa Lucia Verdi, una delle co-autrici dello studio.</p>
+            
+            <div class="article-image-container">
+                <img src="/api/placeholder/600/300" alt="Imaging cerebrale" class="article-image">
+                <div class="image-caption">Immagini comparative del cervello prima e dopo il trattamento sperimentale</div>
+            </div>
+            
+            <p class="article-paragraph">L'interesse della comunità scientifica internazionale non si è fatto attendere. Già diverse università e centri di ricerca in Europa, Stati Uniti e Giappone hanno avviato collaborazioni con il team italiano per replicare e ampliare gli esperimenti. "È fondamentale ora passare a studi clinici su larga scala", commenta il Prof. Bianchi. "Abbiamo già ottenuto l'approvazione per avviare la fase I di sperimentazione su un piccolo gruppo di pazienti entro la fine dell'anno".</p>
+            
+            <p class="article-paragraph">Il percorso verso l'applicazione clinica resta comunque complesso. Gli esperti stimano che potrebbero essere necessari ancora 3-5 anni prima che il trattamento diventi disponibile per i pazienti. Tuttavia, l'entusiasmo è palpabile. "Per la prima volta, stiamo parlando di un potenziale trattamento modificante il decorso della malattia, non solo di un palliativo", sottolinea il Prof. Roberto Neri, presidente della Società Italiana di Neurologia.</p>
+            
+            <div class="article-quote">
+                Questa ricerca rappresenta un esempio virtuoso di come la scienza italiana possa eccellere a livello mondiale quando supportata adeguatamente. Il Ministero continuerà a investire in questo settore strategico.
+                <span class="quote-author">Ministro della Salute</span>
+            </div>
+            
+            <p class="article-paragraph">Nel frattempo, le associazioni dei pazienti guardano con speranza ai nuovi sviluppi. "Seguiamo con grande attenzione i progressi di questa ricerca", dichiara Anna Ricci, presidente dell'Associazione Italiana Familiari Alzheimer. "Ogni passo avanti nella comprensione e nel trattamento di queste malattie rappresenta una speranza concreta per milioni di famiglie".</p>
+            
+            <div class="article-image-container">
+                <img src="/api/placeholder/600/400" alt="Conferenza stampa" class="article-image">
+                <div class="image-caption">Conferenza stampa di presentazione dei risultati presso il Ministero della Salute</div>
+            </div>
+            
+            <p class="article-paragraph">Le implicazioni economiche della scoperta sono altrettanto rilevanti. Si stima che le malattie neurodegenerative costino ai sistemi sanitari europei oltre 200 miliardi di euro all'anno, una cifra destinata a crescere con l'invecchiamento della popolazione. Un trattamento efficace potrebbe quindi rappresentare non solo un progresso medico, ma anche un significativo risparmio per le casse pubbliche.</p>
+            
+            <p class="article-paragraph">Il team di ricerca sta già lavorando a ulteriori miglioramenti della tecnologia, con l'obiettivo di semplificare la somministrazione e ridurre i costi di produzione. "Il nostro obiettivo finale è rendere questa terapia accessibile a tutti i pazienti che ne hanno bisogno, indipendentemente dalle loro condizioni economiche", conclude il Prof. Bianchi.</p>
+        </div>
+        
+        <button class="add-to-library">
+            <i class="fas fa-bookmark"></i> Aggiungi alla libreria
+        </button>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer" id="chi-siamo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Chi Siamo</h3>
+                <p>Il Messaggero Digitale è un giornale online fondato nel 2023 con l'obiettivo di fornire notizie aggiornate, accurate e imparziali su tutti i principali eventi nazionali e internazionali.</p>
+                <p>La nostra missione è informare i lettori con professionalità e trasparenza, promuovendo un'informazione di qualità accessibile a tutti.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contatti</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>redazione@messaggerodigitale.it</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+39 06 1234567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Via della Stampa, 123 - Roma</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Seguici</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Attendi che il DOM sia completamente caricato
+        document.addEventListener('DOMContentLoaded', function() {
+            // Riferimenti agli elementi DOM
+            const menuToggle = document.getElementById('menuToggle');
+            const menuDropdown = document.getElementById('menuDropdown');
+            const menuClose = document.getElementById('menuClose');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const addToLibraryBtn = document.querySelector('.add-to-library');
+            
+            // Gestione del menu a tendina
+            menuToggle.addEventListener('click', function() {
+                menuDropdown.classList.toggle('active');
+            });
+            
+            menuClose.addEventListener('click', function() {
+                menuDropdown.classList.remove('active');
+            });
+            
+            // Modalità notte
+            let isDarkMode = false;
+            
+            themeToggle.addEventListener('click', function() {
+                document.body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+                themeIcon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+                isDarkMode = !isDarkMode;
+            });
+            
+            // Funzionalità "Aggiungi alla libreria"
+            addToLibraryBtn.addEventListener('click', function() {
+                // Animazione del pulsante
+                this.innerHTML = '<i class="fas fa-check"></i> Aggiunto alla libreria';
+                this.style.backgroundColor = '#27ae60'; // Verde per confermare l'azione
+                
+                // Ripristina dopo 2 secondi
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-bookmark"></i> Aggiungi alla libreria';
+                    this.style.backgroundColor = '';
+                }, 2000);
+                
+                // Qui si potrebbe aggiungere il codice per salvare effettivamente l'articolo
+                console.log('Articolo aggiunto alla libreria');
+            });
+        });
+    </script>
+</body>
+</html>
