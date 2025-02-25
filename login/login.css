@@ -1,0 +1,102 @@
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f5f5f5;
+    --text-color: #333333;
+    --header-bg: #000000;
+    --header-text: #ffffff;
+    --accent-color: #3498db;
+    --footer-bg: #222222;
+    --footer-text: #dddddd;
+    --border-color: #c6c6c6;
+    --quote-bg: #f9f9f9;
+    --quote-border: #e0e0e0;
+    --button-hover: #2980b9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+main {
+    margin-top: 200px;
+    background-color: var(--primary-bg);
+}
+
+#login-card {
+    margin: 0 auto;
+    box-shadow: 0 0 10px black;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#login-card h1 {
+    margin: 0;
+    margin-bottom: 3px;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+#login-card p {
+    margin: 0;
+    margin-bottom: 16px;
+    font-size: .80rem;
+}
+
+.label-in {
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-bottom: 3px;
+    color: var(--text-color)
+}
+
+#email, #password {
+    padding: 10px;
+    font-size: 1;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+#showpassword-btn {
+    margin-top: -7px;
+    margin-bottom: 20px;
+    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#signin-btn {
+    text-align: center;
+    padding: 8px;
+    background-color: var(--accent-color);
+    border-radius: 30px;
+    border: none;
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+#register-txt {
+    margin-top: 10px;
+    text-align: center;
+    font-size: .85rem;
+    color: var(--text-color)
+}
+
+#signin-btn:hover {
+    background-color: var(--button-hover);
+}
+
+#error {
+    text-align: center;
+    color: red;
+    padding-top: 5px;
+}
