@@ -25,6 +25,26 @@ main {
     background-color: var(--primary-bg);
 }
 
+header {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+#back-btn {
+    background-color: var(--accent-color);
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin: 10px;
+}
+
+#back-btn:hover, #back-btn:active {
+    background-color: var(--button-hover);
+}
+
 #login-card {
     margin: 0 auto;
     box-shadow: 0 0 10px black;
@@ -91,7 +111,7 @@ main {
     color: var(--text-color)
 }
 
-#signin-btn:hover {
+#signin-btn:hover, #signin-btn:active {
     background-color: var(--button-hover);
 }
 
