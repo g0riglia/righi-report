@@ -35,13 +35,13 @@ header {
     text-decoration: none;
     color: white;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.25rem;
     padding: 10px 20px;
     border-radius: 15px;
     margin: 10px;
 }
 
-#back-btn:hover, #back-btn:active {
+#back-btn:hover, #back-btn:focus {
     background-color: var(--button-hover);
 }
 
