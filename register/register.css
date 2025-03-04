@@ -21,7 +21,7 @@
 }
 
 main {
-    margin-top: 200px;
+    padding-top: 150px;
     background-color: var(--primary-bg);
 }
 
@@ -46,7 +46,7 @@ header {
 }
 
 #login-card {
-    margin: 0 auto;
+    margin: auto;
     box-shadow: 0 0 10px black;
     display: flex;
     flex-direction: column;
