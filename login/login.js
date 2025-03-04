@@ -7,13 +7,6 @@ document.getElementById("show-password").addEventListener("change", function() {
     }
 })
 
-document.getElementById("signin-btn").addEventListener("click", function() {
-    const email = document.getElementById("email")
-    const password = document.getElementById("password")
-
-    if(email.value && password.value) {
-        
-    } else {
-        document.getElementById("login-card").innerHTML += `<p id="error" aria-live="assertive">Devi completare tutti i campi!</p>`
-    }
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault()
 })

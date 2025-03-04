@@ -63,6 +63,11 @@ header {
     font-size: 2rem;
 }
 
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
 #login-card p {
     margin: 0;
     margin-bottom: 16px;

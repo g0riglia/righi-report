@@ -14,17 +14,19 @@
             <div id="login-card">
                 <h1>Registrati</h1>
                 <p>Salva i tuoi articoli preferiti e rimani sempre aggiornato</p>
-                <label for="name" class="label-in">Nome e cognome:</label>
-                <input id="name" class="input-field" type="email" placeholder="Marco Rossi"/>
-                <label for="email" class="label-in">Email:</label>
-                <input id="email" class="input-field" type="email" placeholder="marcorossi99@gmail.com"/>
-                <label for="password" class="label-in">Password:</label>
-                <input id="password" class="input-field" type="password" placeholder="Password"/>
-                <div id="showpassword-btn">
-                    <label for="show-password" id="label-show">Mostra password:</label>
-                    <input id="show-password" type="checkbox"/>
-                </div>
-                <button id="signin-btn">Registrati</button>
+                <form id="login-form">
+                    <label for="name" class="label-in">Nome e cognome:</label>
+                    <input id="name" class="input-field" type="text" placeholder="Marco Rossi" name="fullName" pattern="[a-zA-Z\s]+" required/>
+                    <label for="email" class="label-in">Email:</label>
+                    <input id="email" class="input-field" type="email" placeholder="marcorossi99@gmail.com" name="email" required/>
+                    <label for="password" class="label-in">Password:</label>
+                    <input id="password" class="input-field" type="password" placeholder="******" name="password" required/>
+                    <div id="showpassword-btn">
+                        <label for="show-password" id="label-show">Mostra password:</label>
+                        <input id="show-password" type="checkbox"/>
+                    </div>
+                    <button id="signin-btn">Registrati</button>
+                </form>
             </div>
             <p id="register-txt">Hai già un account?<a href="../login/login.html"> Accedi qui!</a></p>
         </main>
