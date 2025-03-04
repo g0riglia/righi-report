@@ -8,5 +8,6 @@ document.getElementById("show-password").addEventListener("change", function() {
 })
 
 document.getElementById('login-form').addEventListener('submit', function(e) {
+    const loginFormData = new FormData(this)
     e.preventDefault()
 })
